@@ -34,8 +34,8 @@ app.get('/json', (request, response) => {
 );
 
 /** 6) Use the .env file to configure the app */
- 
- 
+
+
 /** 7) Root-level Middleware - A logger */
 //  place it before all the routes !
 /**  For every request, it should log in the console a string taking the following format:
@@ -48,7 +48,18 @@ function logger(req, res, next) {
 }
 
 /** 8) Chaining middleware. A Time server */
-app.get('/')
+/** add the current time to the request object
+ */
+function timer(req, res, next) {
+  req.time =  new Date().toString();
+  next;
+}
+
+app.get(
+  '/now',
+  timer,
+  (req, res) => req.json({req.time})
+);
 
 /** 9)  Get input from client - Route parameters */
 
@@ -56,7 +67,7 @@ app.get('/')
 /** 10) Get input from client - Query parameters */
 // /name?first=<firstname>&last=<lastname>
 
-  
+
 /** 11) Get ready for POST Requests - the `body-parser` */
 // place it before all the routes !
 
